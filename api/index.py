@@ -60,6 +60,9 @@ template_root = """
 </html>
 """
 
+# <form action="/submission" method="post" enctype="multipart/form-data">
+
+
 template_result = """
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -124,9 +127,12 @@ def submission():
 
 @app.route('/submit', methods=['POST'])
 def submit():
-    image = list(request.files)[0]
+    image = request.files['image']
+    print(image)
     c = requests.post("http://nsfw.chuishen.xyz:3000/classify", files={"image": image})
+    print(c)
     c = c.content.decode()
+    print(c)
     dic = json.loads(c)
     return dic, 200, {"Content-Type": "application/json"}
 
