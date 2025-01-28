@@ -94,12 +94,12 @@ template_result = """
 <body>
     <div class="center">
         <div class="result-container">
-            <img src="" alt="Uploaded Image">
             <div>
-                <span>性感指数: {{sexy}}</span>
-                <span>瑟琴指数: {{porn}}</span>
-                <span>性感指数: {{sexy}}</span>
-                <span>变态指数: {{hentai}}</span>
+                <p>性感指数: {{sexy}}</p>
+                <p>瑟琴指数: {{porn}}</p>
+                <p>SFW指数: {{drawing}}</p>
+                <p>变态指数: {{hentai}}</p>
+                <p>测量偏差: {{neutral}}</p>
             </div>
         </div>
     </div>
@@ -115,12 +115,19 @@ def home():
 def submission():
     image = request.files['image']
     c = requests.post("http://nsfw.chuishen.xyz:3000/classify", files={"image": image})
-    return [c.content.decode(), c.status_code]
-    # print(c)
-    # c = c.content.decode()
-    # print(c)
-    # dic = json.loads(c)
-    # return render_template_string(template_result, **dic)
+    print(c)
+    c = c.content.decode()
+    print(c)
+    dic = json.loads(c)
+    return render_template_string(template_result, **dic)
+
+@app.route('/submit', methods=['POST'])
+def submit():
+    image = list(request.files)[0]
+    c = requests.post("http://nsfw.chuishen.xyz:3000/classify", files={"image": image})
+    c = c.content.decode()
+    dic = json.loads(c)
+    return dic, 200, {"Content-Type": "application/json"}
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
