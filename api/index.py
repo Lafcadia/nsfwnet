@@ -10,6 +10,7 @@ template_root = """
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}" />
     <title>鉴黄</title>
     <style>
         body {
