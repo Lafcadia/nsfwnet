@@ -129,7 +129,7 @@ def submission():
 @app.route('/submit', methods=['POST'])
 def submit():
     image = request.data
-    image = FileStorage(image)
+    image = FileStorage(image, filename="image.jpg")
     print(image)
     c = requests.post("http://nsfw.chuishen.xyz:3000/classify", files={"image": image})
     print(c)
