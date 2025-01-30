@@ -1,4 +1,5 @@
 from flask import Flask, render_template_string, request, redirect, url_for
+from werkzeug.datastructures import FileStorage
 import json
 import requests
 
@@ -128,6 +129,7 @@ def submission():
 @app.route('/submit', methods=['POST'])
 def submit():
     image = request.data
+    image = FileStorage(image)
     print(image)
     c = requests.post("http://nsfw.chuishen.xyz:3000/classify", files={"image": image})
     print(c)
